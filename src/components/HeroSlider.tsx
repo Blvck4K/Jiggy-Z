@@ -82,8 +82,8 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '2',
-          title: 'EA Sports FC 26',
-          rating: Upcoming,
+          title: 'Call of Duty Season 8',
+          rating: 8.9,
           year: '2025',
           duration: '100+ hours',
           image: 'https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -100,8 +100,8 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '4',
-          title: 'Assassin Creed Shadows',
-          rating: Upcoming,
+          title: 'Farlight 84',
+          rating: 7.0,
           year: '2025',
           duration: '50+ hours',
           image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
