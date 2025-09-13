@@ -74,7 +74,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         {
           id: '1',
           title: 'WWE 2K25',
-          rating: 9.2,
+          rating: 6.1,
           year: '2025',
           duration: '40+ hours',
           image: 'https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -83,7 +83,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         {
           id: '2',
           title: 'EA Sports FC 26',
-          rating: 9.5,
+          rating: Upcoming,
           year: '2025',
           duration: '100+ hours',
           image: 'https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -92,7 +92,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         {
           id: '3',
           title: 'Tomb Raider IV–VI Remastered',
-          rating: 9.6,
+          rating: 8.1,
           year: '2025',
           duration: '80+ hours',
           image: 'https://images.pexels.com/photos/7991668/pexels-photo-7991668.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -101,7 +101,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         {
           id: '4',
           title: 'Assassin Creed Shadows',
-          rating: 9.4,
+          rating: Upcoming,
           year: '2025',
           duration: '50+ hours',
           image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -110,7 +110,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         {
           id: '5',
           title: 'Kingdom Come Deliverance II',
-          rating: 8.7,
+          rating: 9.1,
           year: '2025',
           duration: '60+ hours',
           image: 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=800',
