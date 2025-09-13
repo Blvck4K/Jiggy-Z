@@ -107,60 +107,6 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'Kratos and Atreus embark on a mythic journey for answers before Ragnarök arrives.'
         },
-        {
-          id: '5',
-          title: 'Horizon Forbidden West',
-          rating: 8.7,
-          year: '2022',
-          duration: '60+ hours',
-          image: 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Join Aloy as she braves the Forbidden West to find the source of a mysterious plague.'
-        },
-        {
-          id: '6',
-          title: 'The Legend of Zelda: Tears of the Kingdom',
-          rating: 9.8,
-          year: '2023',
-          duration: '70+ hours',
-          image: 'https://images.pexels.com/photos/2159065/pexels-photo-2159065.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'An epic adventure across the land and skies of Hyrule awaits.'
-        },
-        {
-          id: '7',
-          title: 'Starfield',
-          rating: 8.2,
-          year: '2023',
-          duration: '100+ hours',
-          image: 'https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'In this next generation role-playing game set amongst the stars.'
-        },
-        {
-          id: '8',
-          title: 'Spider-Man 2',
-          rating: 9.0,
-          year: '2023',
-          duration: '25+ hours',
-          image: 'https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Spider-Men Peter Parker and Miles Morales face the ultimate test of strength.'
-        },
-        {
-          id: '9',
-          title: 'Alan Wake 2',
-          rating: 8.8,
-          year: '2023',
-          duration: '20+ hours',
-          image: 'https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'A survival horror experience with an intricate and layered narrative.'
-        },
-        {
-          id: '10',
-          title: 'Super Mario Bros. Wonder',
-          rating: 9.1,
-          year: '2023',
-          duration: '15+ hours',
-          image: 'https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Mario\'s latest adventure introduces Wonder Flowers that transform levels.'
-        }
       ]
     }
   ];
