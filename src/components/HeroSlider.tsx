@@ -43,7 +43,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           rating: 4.9,
           year: '2025',
           duration: '192 min',
-          image: 'https://m.media-amazon.com/images/S/pv-target-images/c2b82427c6be8f68d208862d4d64b7fe8b8b6ba3dd984d40db25f376c8d95cb1.png',
+          image: 'https://www.metacritic.com/a/img/resize/6f0e337ecd7dc30900437e802566736054e0e681/catalog/provider/2/13/2-6e10932fcd37595a68afc17617d1d4db.jpg?auto=webp&fit=crop&height=675&width=1200',
           description: 'Two armored truck drivers get caught in a high-stakes heist.'
         },
         {
