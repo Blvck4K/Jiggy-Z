@@ -100,7 +100,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '4',
-          title: 'God of War Ragnarök',
+          title: 'Assassin's Creed Shadows',
           rating: 9.4,
           year: '2022',
           duration: '50+ hours',
@@ -109,7 +109,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '5',
-          title: 'Horizon Forbidden West',
+          title: 'Kingdom Come: Deliverance II',
           rating: 8.7,
           year: '2022',
           duration: '60+ hours',
