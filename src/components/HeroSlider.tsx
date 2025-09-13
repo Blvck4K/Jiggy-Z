@@ -34,7 +34,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           rating: 5.8,
           year: '2025',
           duration: '180 min',
-          image: 'https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=800',
+          image: 'https://m.media-amazon.com/images/M/MV5BOTg2YTMyNTktNTc5Yy00MTQzLWE0YTAtYWZiNTBjNDc0OGVlXkEyXkFqcGc@._V1_.jpg',
           description: 'Plankton and SpongeBob must stop Karen from taking over the world.'
         },
         {
