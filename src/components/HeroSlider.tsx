@@ -259,28 +259,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       >
         {isAutoPlaying ? 'Pause' : 'Play'}
       </button>
-
-      {/* Thumbnail Strip */}
-      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-full max-w-4xl px-4 z-20">
-        <div className="flex space-x-2 overflow-x-auto scrollbar-hide">
-          {currentSlideData.items.map((item, index) => (
-            <button
-              key={item.id}
-              onClick={() => setCurrentSlide(index)}
-              className={`flex-shrink-0 w-16 h-24 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-                index === currentSlide
-                  ? 'border-yellow-400 scale-110'
-                  : 'border-white/30 hover:border-white/50'
-              }`}
-            >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-full object-cover"
-              />
-            </button>
-          ))}
-        </div>
+      
       </div>
     </section>
   );
