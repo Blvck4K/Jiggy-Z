@@ -73,7 +73,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       items: [
         {
           id: '1',
-          title: 'Cyberpunk 2077: Phantom Liberty',
+          title: 'WWE 2K25',
           rating: 9.2,
           year: '2023',
           duration: '40+ hours',
@@ -82,7 +82,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '2',
-          title: 'Baldur\'s Gate 3',
+          title: 'Assassin's Creed Shadows',
           rating: 9.5,
           year: '2023',
           duration: '100+ hours',
@@ -91,7 +91,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '3',
-          title: 'Elden Ring',
+          title: 'Sniper Elite: Resistance',
           rating: 9.6,
           year: '2022',
           duration: '80+ hours',
@@ -100,7 +100,16 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '4',
-          title: 'God of War Ragnarök',
+          title: 'Tomb Raider IV–VI Remastered',
+          rating: 9.4,
+          year: '2022',
+          duration: '50+ hours',
+          image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
+          description: 'Kratos and Atreus embark on a mythic journey for answers before Ragnarök arrives.'
+        },
+         {
+          id: '5',
+          title: 'EA Sports FC 26',
           rating: 9.4,
           year: '2022',
           duration: '50+ hours',
