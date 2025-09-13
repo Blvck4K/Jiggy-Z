@@ -259,8 +259,6 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       >
         {isAutoPlaying ? 'Pause' : 'Play'}
       </button>
-      
-      </div>
     </section>
   );
 };
