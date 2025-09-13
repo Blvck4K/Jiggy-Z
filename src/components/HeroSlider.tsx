@@ -107,15 +107,6 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'Kratos and Atreus embark on a mythic journey for answers before Ragnarök arrives.'
         },
-        {
-          id: '5',
-          title: 'EA Sports FC 26',
-          rating: 9.4,
-          year: '2022',
-          duration: '50+ hours',
-          image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Kratos and Atreus embark on a mythic journey for answers before Ragnarök arrives.'
-        },
       ]
     }
   ];
