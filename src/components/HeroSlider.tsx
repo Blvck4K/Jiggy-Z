@@ -21,94 +21,50 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       items: [
         {
           id: '1',
-          title: 'Dune: Part Two',
+          title: 'F1',
           rating: 8.9,
-          year: '2024',
+          year: '2025',
           duration: '166 min',
-          image: 'https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Paul Atreides unites with Chani and the Fremen while on a path of revenge against the conspirators who destroyed his family.'
+          image: 'https://raw.githubusercontent.com/Blvck4K/Jss-png/refs/heads/main/f1-the-movie-8k-7680x4320-22458.jpg',
+          description: 'a 2025 American sports drama film about a former Formula 1 driver, Sonny Hayes (Brad Pitt), who comes out of retirement to mentor and race alongside a rookie driver for his old friend's struggling team, facing conflict with the young driver and the team's near collapse'
         },
         {
           id: '2',
-          title: 'Oppenheimer',
+          title: 'Plankton: The Movie',
           rating: 8.7,
-          year: '2023',
+          year: '2025',
           duration: '180 min',
-          image: 'https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.'
+          image: 'https://m.media-amazon.com/images/M/MV5BOTg2YTMyNTktNTc5Yy00MTQzLWE0YTAtYWZiNTBjNDc0OGVlXkEyXkFqcGc@._V1_.jpg',
+          description: 'a CGI-animated spin-off of SpongeBob SquarePants where the villain Plankton's plan for world domination is interrupted by his robotic wife, Karen, who decides to destroy the world without him after he continues to disrespect her'
         },
         {
           id: '3',
-          title: 'Avatar: The Way of Water',
+          title: 'Madea's Destination Wedding',
           rating: 8.1,
-          year: '2022',
+          year: '2025',
           duration: '192 min',
-          image: 'https://images.pexels.com/photos/7991668/pexels-photo-7991668.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Jake Sully lives with his newfound family formed on the extrasolar moon Pandora.'
+          image: 'https://readysteadycut.com/wp-content/uploads/2025/07/Madeas-Destination-Wedding-Key-Art.jpg',
+          description: 'Follows Madea and her family as they travel to the Bahamas for the rushed wedding of Tiffany to her fiancé, Zavier'
         },
         {
           id: '4',
-          title: 'Top Gun: Maverick',
+          title: 'Back in Action',
           rating: 8.3,
-          year: '2022',
+          year: '2025',
           duration: '130 min',
-          image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'After thirty years, Maverick is still pushing the envelope as a top naval aviator.'
+          image: 'https://ntvb.tmsimg.com/assets/p28700147_v_h10_aa.jpg?w=1280&h=720',
+          description: 'a 2025 Netflix action-comedy film starring Jamie Foxx and Cameron Diaz as Matt and Emily, two former CIA spies who retired to raise a family but are forced back into the espionage world when their identities are exposed'
         },
         {
           id: '5',
-          title: 'The Batman',
+          title: 'The Pickup',
           rating: 7.8,
           year: '2022',
           duration: '176 min',
-          image: 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'When a sadistic serial killer begins murdering key political figures in Gotham.'
+          image: 'https://www.metacritic.com/a/img/resize/6f0e337ecd7dc30900437e802566736054e0e681/catalog/provider/2/13/2-6e10932fcd37595a68afc17617d1d4db.jpg?auto=webp&fit=crop&height=675&width=1200',
+          description: 'Nadine Gordimer's 2001 novel about a relationship between a white South African woman and an illegal immigrant'
         },
-        {
-          id: '6',
-          title: 'Spider-Man: No Way Home',
-          rating: 8.4,
-          year: '2021',
-          duration: '148 min',
-          image: 'https://images.pexels.com/photos/2159065/pexels-photo-2159065.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'With Spider-Man\'s identity now revealed, Peter asks Doctor Strange for help.'
-        },
-        {
-          id: '7',
-          title: 'Black Panther: Wakanda Forever',
-          rating: 6.7,
-          year: '2022',
-          duration: '161 min',
-          image: 'https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'The people of Wakanda fight to protect their home from intervening world powers.'
-        },
-        {
-          id: '8',
-          title: 'Doctor Strange in the Multiverse of Madness',
-          rating: 6.9,
-          year: '2022',
-          duration: '126 min',
-          image: 'https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Doctor Strange teams up with a mysterious young woman to travel through the multiverse.'
-        },
-        {
-          id: '9',
-          title: 'Thor: Love and Thunder',
-          rating: 6.2,
-          year: '2022',
-          duration: '119 min',
-          image: 'https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Thor enlists the help of Valkyrie, Korg and ex-girlfriend Jane Foster to fight Gorr.'
-        },
-        {
-          id: '10',
-          title: 'Jurassic World Dominion',
-          rating: 5.6,
-          year: '2022',
-          duration: '147 min',
-          image: 'https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Four years after the destruction of Isla Nublar, dinosaurs now live alongside humans.'
-        }
+        
       ]
     },
     {
