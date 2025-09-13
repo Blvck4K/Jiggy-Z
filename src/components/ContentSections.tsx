@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Star, Calendar, TrendingUp, Zap, Eye, ArrowRight, Sparkles } from 'lucide-react';
 
 interface ContentSectionsProps {
@@ -10,6 +11,8 @@ const ContentSections: React.FC<ContentSectionsProps> = ({
   onSelectContent = () => {}, 
   isAuthenticated = false 
 }) => {
+  const navigate = useNavigate();
+
   const movies = [
     {
       id: '1',
@@ -121,6 +124,20 @@ const ContentSections: React.FC<ContentSectionsProps> = ({
     }
   ];
 
+  const handleShowMore = (type: 'movie' | 'tv' | 'game') => {
+    if (isAuthenticated) {
+      // If authenticated, navigate to the section page
+      if (type === 'movie') navigate('/movies');
+      else if (type === 'tv') navigate('/tvshows');
+      else if (type === 'game') navigate('/games');
+    } else {
+      // If not authenticated, redirect to login with return URL
+      if (type === 'movie') navigate('/login', { state: { from: '/movies' } });
+      else if (type === 'tv') navigate('/login', { state: { from: '/tvshows' } });
+      else if (type === 'game') navigate('/login', { state: { from: '/games' } });
+    }
+  };
+
   return (
     <main className="py-16 bg-gradient-to-b from-slate-900 to-slate-800">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -133,6 +150,7 @@ const ContentSections: React.FC<ContentSectionsProps> = ({
           type="movie"
           onSelectContent={onSelectContent}
           isAuthenticated={isAuthenticated}
+          onShowMore={() => handleShowMore('movie')}
         />
 
         {/* TV Shows Section */}
@@ -143,6 +161,7 @@ const ContentSections: React.FC<ContentSectionsProps> = ({
           type="tv"
           onSelectContent={onSelectContent}
           isAuthenticated={isAuthenticated}
+          onShowMore={() => handleShowMore('tv')}
         />
 
         {/* Games Section */}
@@ -153,6 +172,7 @@ const ContentSections: React.FC<ContentSectionsProps> = ({
           type="game"
           onSelectContent={onSelectContent}
           isAuthenticated={isAuthenticated}
+          onShowMore={() => handleShowMore('game')}
         />
       </div>
     </main>
@@ -166,6 +186,7 @@ interface ContentSectionProps {
   type: 'movie' | 'tv' | 'game';
   onSelectContent: (id: string, type: 'movie' | 'tv' | 'game') => void;
   isAuthenticated: boolean;
+  onShowMore: () => void;
 }
 
 const ContentSection: React.FC<ContentSectionProps> = ({ 
@@ -174,7 +195,8 @@ const ContentSection: React.FC<ContentSectionProps> = ({
   items, 
   type,
   onSelectContent,
-  isAuthenticated
+  isAuthenticated,
+  onShowMore
 }) => {
   return (
     <section className="mb-16">
@@ -187,7 +209,10 @@ const ContentSection: React.FC<ContentSectionProps> = ({
         </div>
         
         {/* Show More Button */}
-        <button className="group flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-500/10 to-red-500/10 hover:from-yellow-500/20 hover:to-red-500/20 border border-yellow-500/30 hover:border-yellow-500/50 text-yellow-400 hover:text-yellow-300 rounded-2xl transition-all duration-200 transform hover:scale-105 backdrop-blur-sm">
+        <button 
+          onClick={onShowMore}
+          className="group flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-500/10 to-red-500/10 hover:from-yellow-500/20 hover:to-red-500/20 border border-yellow-500/30 hover:border-yellow-500/50 text-yellow-400 hover:text-yellow-300 rounded-2xl transition-all duration-200 transform hover:scale-105 backdrop-blur-sm"
+        >
           <Sparkles className="w-5 h-5" />
           <span className="font-semibold">Show More</span>
           <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />

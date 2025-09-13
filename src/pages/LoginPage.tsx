@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+
+interface LocationState {
+  from?: string;
+}
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -10,6 +14,10 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Get the redirect path from location state
+  const { from = '/' } = (location.state as LocationState) || {};
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +33,8 @@ const LoginPage: React.FC = () => {
       if (error) throw error;
 
       if (data.user) {
-        navigate('/');
+        // Redirect to the page the user was trying to access, or home if none
+        navigate(from);
       }
     } catch (error: any) {
       setError(error.message);
