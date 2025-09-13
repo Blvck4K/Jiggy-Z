@@ -61,7 +61,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           rating: 7.4,
           year: '2025',
           duration: '176 min',
-          image: 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=800',
+          image: 'https://www.animationmagazine.net/wordpress/wp-content/uploads/Bad-Guys-2-digital-kv.jpg',
           description: 'The reformed Bad Guys are framed and must clear their names.'
         },
       ]
