@@ -43,7 +43,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           rating: 4.9,
           year: '2025',
           duration: '192 min',
-          image: 'https://images.pexels.com/photos/7991668/pexels-photo-7991668.jpeg?auto=compress&cs=tinysrgb&w=800',
+          image: 'https://m.media-amazon.com/images/S/pv-target-images/c2b82427c6be8f68d208862d4d64b7fe8b8b6ba3dd984d40db25f376c8d95cb1.png',
           description: 'Two armored truck drivers get caught in a high-stakes heist.'
         },
         {
@@ -52,7 +52,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           rating: 6.2,
           year: '2025',
           duration: '130 min',
-          image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
+          image: 'https://www.whats-on-netflix.com/wp-content/uploads/2024/05/back-in-action-netflix-movie-everything-we-know.jpg',
           description: 'Two suburban ex-spies are forced back into action.'
         },
         {
