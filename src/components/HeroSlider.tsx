@@ -68,7 +68,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     },
     {
       type: 'games',
-      title: 'Top 3 Games This Week',
+      title: 'Top 5 Games This Week',
       contentType: 'game' as const,
       items: [
         {
