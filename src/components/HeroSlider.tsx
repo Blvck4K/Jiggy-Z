@@ -21,7 +21,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       items: [
         {
           id: '1',
-          title: 'Dune: Part Two',
+          title: 'F1 Movie',
           rating: 8.9,
           year: '2024',
           duration: '166 min',
@@ -30,7 +30,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '2',
-          title: 'Oppenheimer',
+          title: 'Plankton Movie',
           rating: 8.7,
           year: '2023',
           duration: '180 min',
@@ -39,7 +39,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '3',
-          title: 'Avatar: The Way of Water',
+          title: 'The Pickup',
           rating: 8.1,
           year: '2022',
           duration: '192 min',
@@ -48,7 +48,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '4',
-          title: 'Top Gun: Maverick',
+          title: 'Back In Action',
           rating: 8.3,
           year: '2022',
           duration: '130 min',
@@ -57,7 +57,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '5',
-          title: 'The Batman',
+          title: 'The Bad Guys 2',
           rating: 7.8,
           year: '2022',
           duration: '176 min',
