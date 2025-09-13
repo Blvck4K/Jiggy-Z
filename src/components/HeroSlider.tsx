@@ -21,12 +21,12 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       items: [
         {
           id: '1',
-          title: 'F1',
+          title: 'Dune: Part Two',
           rating: 8.9,
-          year: '2025',
+          year: '2024',
           duration: '166 min',
-          image: 'https://raw.githubusercontent.com/Blvck4K/Jss-png/refs/heads/main/f1-the-movie-8k-7680x4320-22458.jpg',
-          description: 'a 2025 American sports drama film about a former Formula 1 driver, Sonny Hayes (Brad Pitt), who comes out of retirement to mentor and race alongside a rookie driver for his old friend's struggling team, facing conflict with the young driver and the team's near collapse'
+          image: 'https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800',
+          description: 'Paul Atreides unites with Chani and the Fremen while on a path of revenge against the conspirators who destroyed his family.'
         },
         {
           id: '2',
