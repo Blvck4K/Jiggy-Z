@@ -109,7 +109,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '5',
-          title: 'Kingdom Come: Deliverance II',
+          title: 'Kingdom Come Deliverance II',
           rating: 8.7,
           year: '2022',
           duration: '60+ hours',
