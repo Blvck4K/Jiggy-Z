@@ -100,7 +100,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '4',
-          title: 'Assassin's Creed Shadows',
+          title: 'Assassin Creed Shadows',
           rating: 9.4,
           year: '2022',
           duration: '50+ hours',
