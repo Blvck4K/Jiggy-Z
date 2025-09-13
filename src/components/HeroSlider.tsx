@@ -25,7 +25,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           rating: 7.7,
           year: '2025',
           duration: '166 min',
-          image: 'https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800',
+          image: 'https://cdn.mos.cms.futurecdn.net/VrEtpocsNy5TxqNxonMJZA.jpg',
           description: 'A washed-up F1 driver returns to mentor a rookie and save his team.'
         },
         {
