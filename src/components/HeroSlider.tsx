@@ -23,7 +23,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           id: '1',
           title: 'F1 Movie',
           rating: 8.9,
-          year: '2024',
+          year: '2025',
           duration: '166 min',
           image: 'https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'Paul Atreides unites with Chani and the Fremen while on a path of revenge against the conspirators who destroyed his family.'
@@ -32,7 +32,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           id: '2',
           title: 'Plankton Movie',
           rating: 8.7,
-          year: '2023',
+          year: '2025',
           duration: '180 min',
           image: 'https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.'
@@ -41,7 +41,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           id: '3',
           title: 'The Pickup',
           rating: 8.1,
-          year: '2022',
+          year: '2025',
           duration: '192 min',
           image: 'https://images.pexels.com/photos/7991668/pexels-photo-7991668.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'Jake Sully lives with his newfound family formed on the extrasolar moon Pandora.'
@@ -50,7 +50,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           id: '4',
           title: 'Back In Action',
           rating: 8.3,
-          year: '2022',
+          year: '2025',
           duration: '130 min',
           image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'After thirty years, Maverick is still pushing the envelope as a top naval aviator.'
@@ -59,7 +59,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           id: '5',
           title: 'The Bad Guys 2',
           rating: 7.8,
-          year: '2022',
+          year: '2025',
           duration: '176 min',
           image: 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'When a sadistic serial killer begins murdering key political figures in Gotham.'
@@ -75,7 +75,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           id: '1',
           title: 'WWE 2K25',
           rating: 9.2,
-          year: '2023',
+          year: '2025',
           duration: '40+ hours',
           image: 'https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'Return to Night City in this spy thriller expansion featuring new characters and intense action.'
@@ -84,7 +84,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           id: '2',
           title: 'EA Sports FC 26',
           rating: 9.5,
-          year: '2023',
+          year: '2025',
           duration: '100+ hours',
           image: 'https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'Gather your party and return to the Forgotten Realms in a tale of fellowship and betrayal.'
@@ -93,7 +93,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           id: '3',
           title: 'Tomb Raider IV–VI Remastered',
           rating: 9.6,
-          year: '2022',
+          year: '2025',
           duration: '80+ hours',
           image: 'https://images.pexels.com/photos/7991668/pexels-photo-7991668.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring.'
@@ -102,7 +102,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           id: '4',
           title: 'Assassin Creed Shadows',
           rating: 9.4,
-          year: '2022',
+          year: '2025',
           duration: '50+ hours',
           image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'Kratos and Atreus embark on a mythic journey for answers before Ragnarök arrives.'
@@ -111,7 +111,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           id: '5',
           title: 'Kingdom Come Deliverance II',
           rating: 8.7,
-          year: '2022',
+          year: '2025',
           duration: '60+ hours',
           image: 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'Join Aloy as she braves the Forbidden West to find the source of a mysterious plague.'
