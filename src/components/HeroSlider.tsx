@@ -22,7 +22,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         {
           id: '1',
           title: 'F1 Movie',
-          rating: 8.9,
+          rating: 7.7,
           year: '2025',
           duration: '166 min',
           image: 'https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -31,7 +31,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         {
           id: '2',
           title: 'Plankton Movie',
-          rating: 8.7,
+          rating: 5.8,
           year: '2025',
           duration: '180 min',
           image: 'https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -40,7 +40,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         {
           id: '3',
           title: 'The Pickup',
-          rating: 8.1,
+          rating: 4.9,
           year: '2025',
           duration: '192 min',
           image: 'https://images.pexels.com/photos/7991668/pexels-photo-7991668.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -49,7 +49,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         {
           id: '4',
           title: 'Back In Action',
-          rating: 8.3,
+          rating: 6.2,
           year: '2025',
           duration: '130 min',
           image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -58,7 +58,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         {
           id: '5',
           title: 'The Bad Guys 2',
-          rating: 7.8,
+          rating: 7.4,
           year: '2025',
           duration: '176 min',
           image: 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=800',
