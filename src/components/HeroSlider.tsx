@@ -98,6 +98,24 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           image: 'https://images.pexels.com/photos/7991668/pexels-photo-7991668.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring.'
         },
+        {
+          id: '4',
+          title: 'God of War Ragnarök',
+          rating: 9.4,
+          year: '2022',
+          duration: '50+ hours',
+          image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
+          description: 'Kratos and Atreus embark on a mythic journey for answers before Ragnarök arrives.'
+        },
+        {
+          id: '5',
+          title: 'Horizon Forbidden West',
+          rating: 8.7,
+          year: '2022',
+          duration: '60+ hours',
+          image: 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=800',
+          description: 'Join Aloy as she braves the Forbidden West to find the source of a mysterious plague.'
+        },
         
       ]
     }
