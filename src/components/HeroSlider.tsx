@@ -16,7 +16,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   const slides = [
     {
       type: 'movies',
-      title: 'Top 10 Movies This Week',
+      title: 'Top 5 Movies This Week',
       contentType: 'movie' as const,
       items: [
         {
@@ -68,12 +68,12 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     },
     {
       type: 'games',
-      title: 'Top 10 Games This Week',
+      title: 'Top 3 Games This Week',
       contentType: 'game' as const,
       items: [
         {
           id: '1',
-          title: 'Cyberpunk 2077: Phantom Liberty',
+          title: 'WWE 2K25',
           rating: 9.2,
           year: '2023',
           duration: '40+ hours',
@@ -82,7 +82,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '2',
-          title: 'Baldur\'s Gate 3',
+          title: 'EA Sports FC 26',
           rating: 9.5,
           year: '2023',
           duration: '100+ hours',
@@ -91,7 +91,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '3',
-          title: 'Elden Ring',
+          title: 'Tomb Raider IV–VI Remastered',
           rating: 9.6,
           year: '2022',
           duration: '80+ hours',
