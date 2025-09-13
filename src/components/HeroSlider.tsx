@@ -78,7 +78,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           year: '2025',
           duration: '40+ hours',
           image: 'https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Return to Night City in this spy thriller expansion featuring new characters and intense action.'
+          description: ' A wrestling game with a new story mode, intergender matches, and a new online open world.'
         },
         {
           id: '2',
@@ -87,7 +87,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           year: '2025',
           duration: '100+ hours',
           image: 'https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Gather your party and return to the Forgotten Realms in a tale of fellowship and betrayal.'
+          description: 'A soccer game featuring new gameplay styles and a redesigned Ultimate Team.'
         },
         {
           id: '3',
@@ -96,7 +96,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           year: '2025',
           duration: '80+ hours',
           image: 'https://images.pexels.com/photos/7991668/pexels-photo-7991668.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring.'
+          description: 'A remastered collection of three classic Tomb Raider games.'
         },
         {
           id: '4',
@@ -105,7 +105,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           year: '2025',
           duration: '50+ hours',
           image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Kratos and Atreus embark on a mythic journey for answers before Ragnarök arrives.'
+          description: 'A stealth-action game set in feudal Japan with two playable characters.'
         },
         {
           id: '5',
@@ -114,7 +114,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           year: '2025',
           duration: '60+ hours',
           image: 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Join Aloy as she braves the Forbidden West to find the source of a mysterious plague.'
+          description: 'A first-person RPG continuing the revenge story of Henry in 15th-century Bohemia.'
         },
         
       ]
