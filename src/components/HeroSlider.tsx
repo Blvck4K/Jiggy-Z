@@ -73,7 +73,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       items: [
         {
           id: '1',
-          title: 'WWE 2K25',
+          title: 'Cyberpunk 2077: Phantom Liberty',
           rating: 9.2,
           year: '2023',
           duration: '40+ hours',
@@ -82,7 +82,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '2',
-          title: 'Assassin's Creed Shadows',
+          title: 'Baldur\'s Gate 3',
           rating: 9.5,
           year: '2023',
           duration: '100+ hours',
@@ -91,7 +91,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         },
         {
           id: '3',
-          title: 'Sniper Elite: Resistance',
+          title: 'Elden Ring',
           rating: 9.6,
           year: '2022',
           duration: '80+ hours',
