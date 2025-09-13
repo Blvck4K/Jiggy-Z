@@ -64,51 +64,6 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           image: 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=800',
           description: 'When a sadistic serial killer begins murdering key political figures in Gotham.'
         },
-        {
-          id: '6',
-          title: 'Spider-Man: No Way Home',
-          rating: 8.4,
-          year: '2021',
-          duration: '148 min',
-          image: 'https://images.pexels.com/photos/2159065/pexels-photo-2159065.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'With Spider-Man\'s identity now revealed, Peter asks Doctor Strange for help.'
-        },
-        {
-          id: '7',
-          title: 'Black Panther: Wakanda Forever',
-          rating: 6.7,
-          year: '2022',
-          duration: '161 min',
-          image: 'https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'The people of Wakanda fight to protect their home from intervening world powers.'
-        },
-        {
-          id: '8',
-          title: 'Doctor Strange in the Multiverse of Madness',
-          rating: 6.9,
-          year: '2022',
-          duration: '126 min',
-          image: 'https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Doctor Strange teams up with a mysterious young woman to travel through the multiverse.'
-        },
-        {
-          id: '9',
-          title: 'Thor: Love and Thunder',
-          rating: 6.2,
-          year: '2022',
-          duration: '119 min',
-          image: 'https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Thor enlists the help of Valkyrie, Korg and ex-girlfriend Jane Foster to fight Gorr.'
-        },
-        {
-          id: '10',
-          title: 'Jurassic World Dominion',
-          rating: 5.6,
-          year: '2022',
-          duration: '147 min',
-          image: 'https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Four years after the destruction of Isla Nublar, dinosaurs now live alongside humans.'
-        }
       ]
     },
     {
