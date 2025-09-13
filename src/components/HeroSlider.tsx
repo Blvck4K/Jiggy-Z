@@ -26,7 +26,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           year: '2025',
           duration: '166 min',
           image: 'https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Paul Atreides unites with Chani and the Fremen while on a path of revenge against the conspirators who destroyed his family.'
+          description: 'A washed-up F1 driver returns to mentor a rookie and save his team.'
         },
         {
           id: '2',
@@ -35,7 +35,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           year: '2025',
           duration: '180 min',
           image: 'https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.'
+          description: 'Plankton and SpongeBob must stop Karen from taking over the world.'
         },
         {
           id: '3',
@@ -44,7 +44,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           year: '2025',
           duration: '192 min',
           image: 'https://images.pexels.com/photos/7991668/pexels-photo-7991668.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'Jake Sully lives with his newfound family formed on the extrasolar moon Pandora.'
+          description: 'Two armored truck drivers get caught in a high-stakes heist.'
         },
         {
           id: '4',
@@ -53,7 +53,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           year: '2025',
           duration: '130 min',
           image: 'https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'After thirty years, Maverick is still pushing the envelope as a top naval aviator.'
+          description: 'Two suburban ex-spies are forced back into action.'
         },
         {
           id: '5',
@@ -62,7 +62,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           year: '2025',
           duration: '176 min',
           image: 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=800',
-          description: 'When a sadistic serial killer begins murdering key political figures in Gotham.'
+          description: 'The reformed Bad Guys are framed and must clear their names.'
         },
       ]
     },
