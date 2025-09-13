@@ -12,6 +12,7 @@ import ContentDetailPage from './pages/ContentDetailPage';
 import MoviesPage from './pages/MoviesPage';
 import TVShowsPage from './pages/TVShowsPage';
 import GamesPage from './pages/GamesPage';
+import CreateContentPage from './pages/create/CreateContentPage';
 import AuthGuard from './components/AuthGuard';
 
 // Component to handle content selection
@@ -57,6 +58,13 @@ function App() {
             <Route path="/games" element={
               <AuthGuard>
                 <GamesPage />
+              </AuthGuard>
+            } />
+            
+            {/* Create Content Routes - Protected */}
+            <Route path="/create/:contentType" element={
+              <AuthGuard>
+                <CreateContentPage />
               </AuthGuard>
             } />
             
