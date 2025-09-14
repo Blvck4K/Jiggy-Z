@@ -1,6 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './contexts/AuthContext';
+import { useContent } from './contexts/ContentContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HeroSlider from './components/HeroSlider';
@@ -26,55 +27,55 @@ const Home: React.FC = () => {
   return (
     <>
       <HeroSlider />
-      <ContentSections onSelectContent={navigate} isAuthenticated={!!user} />
+      <ContentSections 
+        onSelectContent={navigate} 
+        isAuthenticated={!!user}
+        showDeleteButtons={!!user} 
+      />
     </>
   );
 };
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="min-h-screen bg-gray-900">
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/search" element={<SearchPage />} />
-            <Route path="/content/:id" element={<ContentDetailPage />} />
-            
-            {/* Protected Routes */}
-            <Route path="/movies" element={
-              <AuthGuard>
-                <MoviesPage />
-              </AuthGuard>
-            } />
-            <Route path="/tvshows" element={
-              <AuthGuard>
-                <TVShowsPage />
-              </AuthGuard>
-            } />
-            <Route path="/games" element={
-              <AuthGuard>
-                <GamesPage />
-              </AuthGuard>
-            } />
-            
-            {/* Create Content Routes - Protected */}
-            <Route path="/create/:contentType" element={
-              <AuthGuard>
-                <CreateContentPage />
-              </AuthGuard>
-            } />
-            
-            {/* Catch all route */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
-    </AuthProvider>
+    <div className="min-h-screen bg-gray-900">
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/content/:id" element={<ContentDetailPage />} />
+        
+        {/* Protected Routes */}
+        <Route path="/movies" element={
+          <AuthGuard>
+            <MoviesPage />
+          </AuthGuard>
+        } />
+        <Route path="/tvshows" element={
+          <AuthGuard>
+            <TVShowsPage />
+          </AuthGuard>
+        } />
+        <Route path="/games" element={
+          <AuthGuard>
+            <GamesPage />
+          </AuthGuard>
+        } />
+        
+        {/* Create Content Routes - Protected */}
+        <Route path="/create/:contentType" element={
+          <AuthGuard>
+            <CreateContentPage />
+          </AuthGuard>
+        } />
+        
+        {/* Catch all route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+      <Footer />
+    </div>
   );
 }
 

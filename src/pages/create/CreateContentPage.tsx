@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Plus, Check } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useContent, generateId } from '../../contexts/ContentContext';
 
 const CreateContentPage: React.FC = () => {
   const { contentType } = useParams<{ contentType: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { dispatch } = useContent();
+
+  // Form state
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    genre: '',
+    year: new Date().getFullYear().toString(),
+    image: '',
+    duration: '',
+    seasons: '',
+    platform: '',
+    rating: '8.0',
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   // Redirect to login if not authenticated
   React.useEffect(() => {
@@ -46,6 +64,64 @@ const CreateContentPage: React.FC = () => {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const newItem = {
+        id: generateId(),
+        title: formData.title,
+        rating: parseFloat(formData.rating),
+        genre: formData.genre,
+        image: formData.image || 'https://via.placeholder.com/400x600/1e293b/94a3b8?text=No+Image',
+        ...(contentType === 'movie' && {
+          year: formData.year,
+        }),
+        ...(contentType === 'tvshow' && {
+          season: formData.seasons ? `Season ${formData.seasons}` : 'Season 1',
+        }),
+        ...(contentType === 'game' && {
+          platform: formData.platform,
+        }),
+      };
+
+      // Add the new item based on content type
+      switch (contentType) {
+        case 'movie':
+          dispatch({ type: 'ADD_MOVIE', payload: newItem });
+          break;
+        case 'tvshow':
+          dispatch({ type: 'ADD_TVSHOW', payload: newItem });
+          break;
+        case 'game':
+          dispatch({ type: 'ADD_GAME', payload: newItem });
+          break;
+      }
+
+      setSubmitSuccess(true);
+      
+      // Redirect after a short delay
+      setTimeout(() => {
+        navigate(contentType === 'tvshow' ? '/tvshows' : `/${contentType}s`);
+      }, 1500);
+
+    } catch (error) {
+      console.error('Error creating content:', error);
+      alert('Failed to create content. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,17 +139,30 @@ const CreateContentPage: React.FC = () => {
           <p className="text-gray-400 text-lg">{getDescription()}</p>
         </div>
 
+        {submitSuccess && (
+          <div className="mb-6 p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400">
+            <div className="flex items-center">
+              <Check className="w-5 h-5 mr-2" />
+              <span>Content created successfully! Redirecting...</span>
+            </div>
+          </div>
+        )}
+
         {/* Content Form */}
         <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6">
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title */}
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-gray-300 mb-1">
-                Title
+                Title *
               </label>
               <input
                 type="text"
                 id="title"
+                name="title"
+                required
+                value={formData.title}
+                onChange={handleInputChange}
                 className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
                 placeholder={`Enter ${contentType} title`}
               />
@@ -86,7 +175,10 @@ const CreateContentPage: React.FC = () => {
               </label>
               <textarea
                 id="description"
+                name="description"
                 rows={4}
+                value={formData.description}
+                onChange={handleInputChange}
                 className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
                 placeholder={`Enter ${contentType} description`}
               ></textarea>
@@ -95,24 +187,50 @@ const CreateContentPage: React.FC = () => {
             {/* Genre */}
             <div>
               <label htmlFor="genre" className="block text-sm font-medium text-gray-300 mb-1">
-                Genre
+                Genre *
               </label>
               <input
                 type="text"
                 id="genre"
+                name="genre"
+                required
+                value={formData.genre}
+                onChange={handleInputChange}
                 className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
                 placeholder="e.g. Action, Drama, Sci-Fi"
+              />
+            </div>
+
+            {/* Rating */}
+            <div>
+              <label htmlFor="rating" className="block text-sm font-medium text-gray-300 mb-1">
+                Rating
+              </label>
+              <input
+                type="number"
+                id="rating"
+                name="rating"
+                value={formData.rating}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
+                placeholder="e.g. 8.5"
+                min="0"
+                max="10"
+                step="0.1"
               />
             </div>
 
             {/* Release Year */}
             <div>
               <label htmlFor="year" className="block text-sm font-medium text-gray-300 mb-1">
-                Release Year
+                {contentType === 'movie' ? 'Release Year' : 'Release Year'}
               </label>
               <input
                 type="number"
                 id="year"
+                name="year"
+                value={formData.year}
+                onChange={handleInputChange}
                 className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
                 placeholder="e.g. 2025"
                 min="1900"
@@ -129,6 +247,9 @@ const CreateContentPage: React.FC = () => {
                 <input
                   type="number"
                   id="duration"
+                  name="duration"
+                  value={formData.duration}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
                   placeholder="e.g. 120"
                   min="1"
@@ -144,6 +265,9 @@ const CreateContentPage: React.FC = () => {
                 <input
                   type="number"
                   id="seasons"
+                  name="seasons"
+                  value={formData.seasons}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
                   placeholder="e.g. 3"
                   min="1"
@@ -154,11 +278,15 @@ const CreateContentPage: React.FC = () => {
             {contentType === 'game' && (
               <div>
                 <label htmlFor="platform" className="block text-sm font-medium text-gray-300 mb-1">
-                  Platforms
+                  Platforms *
                 </label>
                 <input
                   type="text"
                   id="platform"
+                  name="platform"
+                  required
+                  value={formData.platform}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
                   placeholder="e.g. PC, PS5, Xbox"
                 />
@@ -173,6 +301,9 @@ const CreateContentPage: React.FC = () => {
               <input
                 type="url"
                 id="image"
+                name="image"
+                value={formData.image}
+                onChange={handleInputChange}
                 className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
                 placeholder="https://example.com/image.jpg"
               />
@@ -182,9 +313,20 @@ const CreateContentPage: React.FC = () => {
             <div className="pt-4">
               <button
                 type="submit"
-                className="w-full py-4 px-6 bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-400 hover:to-red-400 text-black font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02]"
+                disabled={isSubmitting}
+                className="w-full py-4 px-6 bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-400 hover:to-red-400 text-black font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               >
-                Create {contentType?.charAt(0).toUpperCase() + contentType?.slice(1)}
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin mr-2"></div>
+                    Creating...
+                  </>
+                ) : (
+                  <>
+                    <Plus className="w-5 h-5 mr-2" />
+                    Create {contentType?.charAt(0).toUpperCase() + contentType?.slice(1)}
+                  </>
+                )}
               </button>
             </div>
           </form>
