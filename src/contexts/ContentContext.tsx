@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import { supabase } from '../lib/supabase';
 
 // Define types for our content
 export interface Movie {
@@ -71,7 +72,8 @@ type ContentAction =
   | { type: 'SET_MOVIES'; payload: Movie[] }
   | { type: 'SET_TVSHOWS'; payload: TVShow[] }
   | { type: 'SET_GAMES'; payload: Game[] }
-  | { type: 'LOAD_INITIAL_DATA' };
+  | { type: 'LOAD_INITIAL_DATA' }
+  | { type: 'SYNC_NEW_CONTENT'; payload: { type: 'movie' | 'tv' | 'game'; content: any } };
 
 // Initial state with default data
 const initialState: ContentState = {
@@ -229,7 +231,7 @@ const initialState: ContentState = {
       rating: 8.4,
       platform: 'PC, Mobile',
       genre: 'Puzzle, Strategy',
-      image: 'https://assets.nintendo.eu/image/upload/f_auto/q_auto/v1757304516/NAL/Articles/2025/09-September/1920x1080_NintendoSwitch2_Hollow-Knight-Silksong.jpg'
+      image: 'https://assets.nintendo.eu/image/upload/f_auto/q_auto/v1757304516/NAL/Articles/2025/09-September/1920x1080_NintendoSwitch2_Hollow-Knight-Silksong.jpg',
       publisher: 'Team Cherry',
       developer: 'Team Cherry',
       release_date: 'TBA 2025',
@@ -241,7 +243,7 @@ const initialState: ContentState = {
       rating: 9.0,
       platform: 'Next-Gen Only',
       genre: 'Adventure, RPG',
-      image: 'https://images5.alphacoders.com/138/1389830.jpg'
+      image: 'https://images5.alphacoders.com/138/1389830.jpg',
       publisher: 'Bethesda Softworks',
       developer: 'id Software',
       release_date: 'May 15, 2025',
@@ -272,6 +274,17 @@ function contentReducer(state: ContentState, action: ContentAction): ContentStat
       return { ...state, games: action.payload };
     case 'LOAD_INITIAL_DATA':
       return initialState;
+    case 'SYNC_NEW_CONTENT':
+      switch (action.payload.type) {
+        case 'movie':
+          return { ...state, movies: [...state.movies, action.payload.content] };
+        case 'tv':
+          return { ...state, tvShows: [...state.tvShows, action.payload.content] };
+        case 'game':
+          return { ...state, games: [...state.games, action.payload.content] };
+        default:
+          return state;
+      }
     default:
       return state;
   }
@@ -289,6 +302,76 @@ const ContentContext = createContext<{
 // Provider component
 export const ContentProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(contentReducer, initialState);
+
+  // Set up real-time subscriptions for new content
+  React.useEffect(() => {
+    // Subscribe to movies table changes
+    const moviesSubscription = supabase
+      .channel('movies-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'movies'
+        },
+        (payload) => {
+          console.log('New movie added:', payload.new);
+          dispatch({
+            type: 'SYNC_NEW_CONTENT',
+            payload: { type: 'movie', content: payload.new }
+          });
+        }
+      )
+      .subscribe();
+
+    // Subscribe to tv_shows table changes
+    const tvShowsSubscription = supabase
+      .channel('tv-shows-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'tv_shows'
+        },
+        (payload) => {
+          console.log('New TV show added:', payload.new);
+          dispatch({
+            type: 'SYNC_NEW_CONTENT',
+            payload: { type: 'tv', content: payload.new }
+          });
+        }
+      )
+      .subscribe();
+
+    // Subscribe to games table changes
+    const gamesSubscription = supabase
+      .channel('games-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'games'
+        },
+        (payload) => {
+          console.log('New game added:', payload.new);
+          dispatch({
+            type: 'SYNC_NEW_CONTENT',
+            payload: { type: 'game', content: payload.new }
+          });
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscriptions on unmount
+    return () => {
+      supabase.removeChannel(moviesSubscription);
+      supabase.removeChannel(tvShowsSubscription);
+      supabase.removeChannel(gamesSubscription);
+    };
+  }, []);
 
   return (
     <ContentContext.Provider value={{ state, dispatch }}>

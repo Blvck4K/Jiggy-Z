@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Plus, Check } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useContent, generateId } from '../../contexts/ContentContext';
+import { supabase } from '../../lib/supabase';
 
 const CreateContentPage: React.FC = () => {
   const { contentType } = useParams<{ contentType: string }>();
@@ -77,33 +78,76 @@ const CreateContentPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const newItem = {
-        id: generateId(),
+      // Prepare the data for database insertion
+      const newItemData = {
         title: formData.title,
+        description: formData.description,
         rating: parseFloat(formData.rating),
         genre: formData.genre,
         image: formData.image || 'https://via.placeholder.com/400x600/1e293b/94a3b8?text=No+Image',
+        year: formData.year,
         ...(contentType === 'movie' && {
-          year: formData.year,
+          duration: formData.duration,
         }),
         ...(contentType === 'tvshow' && {
           season: formData.seasons ? `Season ${formData.seasons}` : 'Season 1',
+          episodes: parseInt(formData.seasons) || 1,
         }),
         ...(contentType === 'game' && {
           platform: formData.platform,
         }),
       };
 
-      // Add the new item based on content type
+      let result;
+      
+      // Insert into the appropriate Supabase table
       switch (contentType) {
         case 'movie':
-          dispatch({ type: 'ADD_MOVIE', payload: newItem });
+          result = await supabase
+            .from('movies')
+            .insert([newItemData])
+            .select()
+            .single();
           break;
         case 'tvshow':
-          dispatch({ type: 'ADD_TVSHOW', payload: newItem });
+          result = await supabase
+            .from('tv_shows')
+            .insert([newItemData])
+            .select()
+            .single();
           break;
         case 'game':
-          dispatch({ type: 'ADD_GAME', payload: newItem });
+          result = await supabase
+            .from('games')
+            .insert([newItemData])
+            .select()
+            .single();
+          break;
+      }
+      
+      if (result?.error) {
+        throw result.error;
+      }
+      
+      console.log('Content created successfully:', result.data);
+      
+      // Also add to local state for immediate UI update
+      const localItem = {
+        id: result.data.id,
+        ...newItemData,
+        trending: false,
+        hot: false
+      };
+      
+      switch (contentType) {
+        case 'movie':
+          dispatch({ type: 'ADD_MOVIE', payload: localItem });
+          break;
+        case 'tvshow':
+          dispatch({ type: 'ADD_TVSHOW', payload: localItem });
+          break;
+        case 'game':
+          dispatch({ type: 'ADD_GAME', payload: localItem });
           break;
       }
 
@@ -116,7 +160,7 @@ const CreateContentPage: React.FC = () => {
 
     } catch (error) {
       console.error('Error creating content:', error);
-      alert('Failed to create content. Please try again.');
+      alert(`Failed to create content: ${error.message || 'Please try again.'}`);
     } finally {
       setIsSubmitting(false);
     }
