@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Star, Calendar, Clock, Play, Plus, Heart, Share2, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Star, Calendar, Clock, Play, Plus, Heart, Share2, MessageCircle, Send, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 
@@ -13,6 +13,12 @@ const ContentDetailPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [similarContent, setSimilarContent] = useState<any[]>([]);
   const [contentType, setContentType] = useState<'movie' | 'tv' | 'game'>('movie');
+  const [userRating, setUserRating] = useState<number>(0);
+  const [hoverRating, setHoverRating] = useState<number>(0);
+  const [newComment, setNewComment] = useState<string>('');
+  const [comments, setComments] = useState<any[]>([]);
+  const [averageRating, setAverageRating] = useState<number>(0);
+  const [totalRatings, setTotalRatings] = useState<number>(0);
 
   useEffect(() => {
     const fetchContentDetails = async () => {
@@ -38,6 +44,46 @@ const ContentDetailPage: React.FC = () => {
           title: `Similar ${type} ${i}`,
           rating: (8 + Math.random()).toFixed(1)
         })));
+        
+        // Load demo comments and ratings
+        setComments([
+          {
+            id: '1',
+            user: 'MovieFan2024',
+            avatar: 'MF',
+            comment: 'Absolutely incredible! The visuals are stunning and the story keeps you engaged throughout. This is definitely a must-watch.',
+            rating: 9,
+            timestamp: '2 days ago',
+            likes: 12,
+            dislikes: 1
+          },
+          {
+            id: '2',
+            user: 'CinemaLover',
+            avatar: 'CL',
+            comment: 'Great cinematography and excellent performances. The pacing could have been better in some parts, but overall a solid experience.',
+            rating: 8,
+            timestamp: '5 days ago',
+            likes: 8,
+            dislikes: 0
+          },
+          {
+            id: '3',
+            user: 'ReviewMaster',
+            avatar: 'RM',
+            comment: 'Not bad, but I expected more from this one. The story felt predictable and some characters were underdeveloped.',
+            rating: 6,
+            timestamp: '1 week ago',
+            likes: 3,
+            dislikes: 5
+          }
+        ]);
+        
+        // Calculate average rating
+        const ratings = [9, 8, 6, 8.9]; // Including the main rating
+        const avg = ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length;
+        setAverageRating(Number(avg.toFixed(1)));
+        setTotalRatings(ratings.length);
       } catch (err: any) {
         console.error('Error fetching content details:', err);
         setError(err.message || 'Failed to load content details');
@@ -51,6 +97,58 @@ const ContentDetailPage: React.FC = () => {
 
   const handleBack = () => {
     navigate(-1);
+  };
+
+  const handleRatingSubmit = (rating: number) => {
+    if (!user) {
+      alert('Please log in to rate this content');
+      return;
+    }
+    setUserRating(rating);
+    // In a real app, you would save this to the database
+    console.log('User rated:', rating);
+  };
+
+  const handleCommentSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) {
+      alert('Please log in to comment');
+      return;
+    }
+    if (!newComment.trim()) return;
+    
+    const comment = {
+      id: Date.now().toString(),
+      user: user.email?.split('@')[0] || 'User',
+      avatar: user.email?.charAt(0).toUpperCase() || 'U',
+      comment: newComment,
+      rating: userRating,
+      timestamp: 'Just now',
+      likes: 0,
+      dislikes: 0
+    };
+    
+    setComments([comment, ...comments]);
+    setNewComment('');
+    // In a real app, you would save this to the database
+  };
+
+  const handleCommentLike = (commentId: string, isLike: boolean) => {
+    if (!user) {
+      alert('Please log in to interact with comments');
+      return;
+    }
+    
+    setComments(comments.map(comment => {
+      if (comment.id === commentId) {
+        return {
+          ...comment,
+          likes: isLike ? comment.likes + 1 : comment.likes,
+          dislikes: !isLike ? comment.dislikes + 1 : comment.dislikes
+        };
+      }
+      return comment;
+    }));
   };
 
   // Demo content for preview purposes
@@ -70,7 +168,14 @@ const ContentDetailPage: React.FC = () => {
     director: 'Denis Villeneuve',
     studio: 'Legendary Pictures',
     publisher: contentType === 'game' ? 'CD Projekt Red' : undefined,
-    release_date: 'March 1, 2025'
+    release_date: 'March 1, 2025',
+    fullDescription: `This epic continuation of the Dune saga takes viewers on an unforgettable journey through the desert planet of Arrakis. Paul Atreides, now fully embracing his destiny as the prophesied leader, must navigate the complex political landscape while leading the Fremen in their fight for freedom.
+
+The film masterfully balances spectacular action sequences with intimate character moments, exploring themes of power, destiny, and the cost of leadership. The cinematography captures the vast, otherworldly beauty of Arrakis, while the sound design immerses audiences in this alien world.
+
+Director Denis Villeneuve has crafted a worthy successor that honors Frank Herbert's vision while bringing fresh perspectives to this beloved science fiction universe. The performances are outstanding across the board, with particular praise for the leads who bring depth and nuance to their complex characters.
+
+This is more than just a sequel - it's a cinematic experience that will leave audiences eagerly anticipating the next chapter in this extraordinary saga.`
   };
 
   if (loading) {
@@ -194,6 +299,16 @@ const ContentDetailPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main Content */}
           <div className="lg:col-span-2">
+            {/* Full Post Content Section */}
+            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6 mb-8">
+              <h2 className="text-2xl font-bold text-white mb-4">About This {contentType === 'movie' ? 'Movie' : contentType === 'tv' ? 'Show' : 'Game'}</h2>
+              <div className="prose prose-invert max-w-none">
+                <p className="text-gray-300 leading-relaxed whitespace-pre-line">
+                  {displayContent.fullDescription}
+                </p>
+              </div>
+            </div>
+
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6 mb-8">
               <h2 className="text-2xl font-bold text-white mb-4">Overview</h2>
               <p className="text-gray-300 leading-relaxed">
@@ -267,61 +382,150 @@ const ContentDetailPage: React.FC = () => {
               </div>
             )}
             
-            {/* Reviews Section */}
+            {/* User Interaction Section - Comments and Ratings */}
             {isAuthenticated && (
               <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-white">Reviews</h2>
-                  <button className="flex items-center text-yellow-400 hover:text-yellow-300 transition-colors duration-200">
-                    <MessageCircle className="w-5 h-5 mr-1" />
-                    Write a Review
-                  </button>
+                <h2 className="text-2xl font-bold text-white mb-6">Rate & Review</h2>
+                
+                {/* Rating Overview */}
+                <div className="mb-8 p-4 bg-slate-700/50 rounded-lg">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <span className="text-3xl font-bold text-yellow-400">{averageRating}</span>
+                        <div className="flex items-center">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star
+                              key={star}
+                              className={`w-5 h-5 ${
+                                star <= Math.round(averageRating)
+                                  ? 'text-yellow-400 fill-current'
+                                  : 'text-gray-400'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-gray-400 text-sm">Based on {totalRatings} ratings</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* User Rating Section */}
+                <div className="mb-8 p-4 bg-slate-700/30 rounded-lg">
+                  <h3 className="text-lg font-semibold text-white mb-3">Your Rating</h3>
+                  <div className="flex items-center space-x-2 mb-4">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rating) => (
+                      <button
+                        key={rating}
+                        onClick={() => handleRatingSubmit(rating)}
+                        onMouseEnter={() => setHoverRating(rating)}
+                        onMouseLeave={() => setHoverRating(0)}
+                        className={`w-8 h-8 rounded-full border-2 transition-all duration-200 flex items-center justify-center text-sm font-semibold ${
+                          (hoverRating >= rating || userRating >= rating)
+                            ? 'bg-yellow-400 border-yellow-400 text-black'
+                            : 'border-gray-400 text-gray-400 hover:border-yellow-400 hover:text-yellow-400'
+                        }`}
+                      >
+                        {rating}
+                      </button>
+                    ))}
+                  </div>
+                  {userRating > 0 && (
+                    <p className="text-green-400 text-sm">You rated this {userRating}/10</p>
+                  )}
                 </div>
                 
-                <div className="space-y-6">
-                  <div className="p-4 bg-slate-700/50 rounded-lg">
-                    <div className="flex items-start space-x-4">
-                      <div className="w-10 h-10 bg-slate-600 rounded-full flex-shrink-0"></div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h4 className="text-white font-medium">User123</h4>
-                          <div className="flex items-center">
-                            <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                            <span className="text-yellow-400 text-sm ml-1">9.0</span>
+                {/* Comment Form */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-semibold text-white mb-3">Leave a Comment</h3>
+                  <form onSubmit={handleCommentSubmit} className="space-y-4">
+                    <textarea
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      placeholder="Share your thoughts about this content..."
+                      className="w-full p-4 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 resize-none"
+                      rows={4}
+                    />
+                    <div className="flex justify-end">
+                      <button
+                        type="submit"
+                        disabled={!newComment.trim()}
+                        className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-400 hover:to-red-400 text-black font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <Send className="w-4 h-4" />
+                        <span>Post Comment</span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                {/* Comments List */}
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-4">Comments ({comments.length})</h3>
+                  <div className="space-y-6">
+                    {comments.map((comment) => (
+                      <div key={comment.id} className="p-4 bg-slate-700/50 rounded-lg">
+                        <div className="flex items-start space-x-4">
+                          <div className="w-10 h-10 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex-shrink-0 flex items-center justify-center text-black font-bold">
+                            {comment.avatar}
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center space-x-3">
+                                <h4 className="text-white font-medium">{comment.user}</h4>
+                                {comment.rating && (
+                                  <div className="flex items-center space-x-1">
+                                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                    <span className="text-yellow-400 text-sm">{comment.rating}/10</span>
+                                  </div>
+                                )}
+                              </div>
+                              <span className="text-gray-400 text-xs">{comment.timestamp}</span>
+                            </div>
+                            <p className="text-gray-300 text-sm mb-3 leading-relaxed">
+                              {comment.comment}
+                            </p>
+                            <div className="flex items-center space-x-4">
+                              <button
+                                onClick={() => handleCommentLike(comment.id, true)}
+                                className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors duration-200"
+                              >
+                                <ThumbsUp className="w-4 h-4" />
+                                <span className="text-xs">{comment.likes}</span>
+                              </button>
+                              <button
+                                onClick={() => handleCommentLike(comment.id, false)}
+                                className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors duration-200"
+                              >
+                                <ThumbsDown className="w-4 h-4" />
+                                <span className="text-xs">{comment.dislikes}</span>
+                              </button>
+                            </div>
                           </div>
                         </div>
-                        <p className="text-gray-300 text-sm mt-2">
-                          This is an amazing {contentType}! The visuals are stunning and the story is captivating. 
-                          I couldn't stop {contentType === 'movie' || contentType === 'tv' ? 'watching' : 'playing'} until the end.
-                        </p>
-                        <div className="mt-2 text-gray-400 text-xs">
-                          Posted 2 days ago
-                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                  
-                  <div className="p-4 bg-slate-700/50 rounded-lg">
-                    <div className="flex items-start space-x-4">
-                      <div className="w-10 h-10 bg-slate-600 rounded-full flex-shrink-0"></div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h4 className="text-white font-medium">FanGirl42</h4>
-                          <div className="flex items-center">
-                            <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                            <span className="text-yellow-400 text-sm ml-1">8.5</span>
-                          </div>
-                        </div>
-                        <p className="text-gray-300 text-sm mt-2">
-                          I've been waiting for this {contentType} for so long and it didn't disappoint! 
-                          The attention to detail is incredible.
-                        </p>
-                        <div className="mt-2 text-gray-400 text-xs">
-                          Posted 5 days ago
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                </div>
+              </div>
+            )}
+            
+            {/* Login Prompt for Non-Authenticated Users */}
+            {!isAuthenticated && (
+              <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6">
+                <div className="text-center">
+                  <MessageCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-white mb-2">Join the Conversation</h3>
+                  <p className="text-gray-400 mb-4">
+                    Sign in to rate this content and share your thoughts with the community.
+                  </p>
+                  <button
+                    onClick={() => navigate('/login')}
+                    className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-400 hover:to-red-400 text-black font-semibold rounded-lg transition-all duration-200"
+                  >
+                    Sign In to Comment & Rate
+                  </button>
                 </div>
               </div>
             )}
