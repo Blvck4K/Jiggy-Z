@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Star, Calendar, Clock, Play, Plus, Heart, Share2, MessageCircle, Send, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useContent } from '../contexts/ContentContext';
 import { supabase } from '../lib/supabase';
 
 const ContentDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { state } = useContent();
   const [content, setContent] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -25,25 +27,46 @@ const ContentDetailPage: React.FC = () => {
       try {
         setLoading(true);
         
-        // In a real app, we would determine the content type and fetch from the appropriate table
-        // For now, we'll use demo content
+        // Find the content item from our context state
+        let foundContent = null;
+        let type: 'movie' | 'tv' | 'game' = 'movie';
         
-        // Determine content type based on ID or other logic
-        // This is a placeholder - in a real app, you'd have a way to determine the content type
-        const type = id?.startsWith('m') ? 'movie' : id?.startsWith('t') ? 'tv' : 'game';
-        setContentType(type as 'movie' | 'tv' | 'game');
+        // Search in movies
+        foundContent = state.movies.find(movie => movie.id === id);
+        if (foundContent) {
+          type = 'movie';
+        } else {
+          // Search in TV shows
+          foundContent = state.tvShows.find(show => show.id === id);
+          if (foundContent) {
+            type = 'tv';
+          } else {
+            // Search in games
+            foundContent = state.games.find(game => game.id === id);
+            if (foundContent) {
+              type = 'game';
+            }
+          }
+        }
         
-        // Fetch the content item details from Supabase
-        // This is a placeholder - in a real app, you'd fetch from your database
+        if (!foundContent) {
+          throw new Error('Content not found');
+        }
         
-        // For demo purposes, we'll use hardcoded content
-        setContent(demoContent);
-        setSimilarContent([1, 2, 3, 4].map(i => ({
-          ...demoContent,
-          id: `${i}`,
-          title: `Similar ${type} ${i}`,
-          rating: (8 + Math.random()).toFixed(1)
-        })));
+        setContentType(type);
+        setContent(foundContent);
+        
+        // Get similar content from the same category
+        let similarItems = [];
+        if (type === 'movie') {
+          similarItems = state.movies.filter(movie => movie.id !== id && movie.genre.split(',')[0].trim() === foundContent.genre.split(',')[0].trim()).slice(0, 4);
+        } else if (type === 'tv') {
+          similarItems = state.tvShows.filter(show => show.id !== id && show.genre.split(',')[0].trim() === foundContent.genre.split(',')[0].trim()).slice(0, 4);
+        } else {
+          similarItems = state.games.filter(game => game.id !== id && game.genre.split(',')[0].trim() === foundContent.genre.split(',')[0].trim()).slice(0, 4);
+        }
+        
+        setSimilarContent(similarItems);
         
         // Load demo comments and ratings
         setComments([
@@ -51,7 +74,7 @@ const ContentDetailPage: React.FC = () => {
             id: '1',
             user: 'MovieFan2024',
             avatar: 'MF',
-            comment: 'Absolutely incredible! The visuals are stunning and the story keeps you engaged throughout. This is definitely a must-watch.',
+            comment: `Absolutely incredible! The visuals are stunning and the story keeps you engaged throughout. ${foundContent.title} is definitely a must-watch.`,
             rating: 9,
             timestamp: '2 days ago',
             likes: 12,
@@ -61,7 +84,7 @@ const ContentDetailPage: React.FC = () => {
             id: '2',
             user: 'CinemaLover',
             avatar: 'CL',
-            comment: 'Great cinematography and excellent performances. The pacing could have been better in some parts, but overall a solid experience.',
+            comment: `Great ${type === 'game' ? 'gameplay' : 'cinematography'} and excellent ${type === 'game' ? 'mechanics' : 'performances'}. The pacing could have been better in some parts, but overall a solid experience.`,
             rating: 8,
             timestamp: '5 days ago',
             likes: 8,
@@ -71,7 +94,7 @@ const ContentDetailPage: React.FC = () => {
             id: '3',
             user: 'ReviewMaster',
             avatar: 'RM',
-            comment: 'Not bad, but I expected more from this one. The story felt predictable and some characters were underdeveloped.',
+            comment: `Not bad, but I expected more from ${foundContent.title}. The story felt predictable and some characters were underdeveloped.`,
             rating: 6,
             timestamp: '1 week ago',
             likes: 3,
@@ -80,7 +103,7 @@ const ContentDetailPage: React.FC = () => {
         ]);
         
         // Calculate average rating
-        const ratings = [9, 8, 6, 8.9]; // Including the main rating
+        const ratings = [9, 8, 6, foundContent.rating]; // Including the main rating
         const avg = ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length;
         setAverageRating(Number(avg.toFixed(1)));
         setTotalRatings(ratings.length);
@@ -93,7 +116,7 @@ const ContentDetailPage: React.FC = () => {
     };
     
     fetchContentDetails();
-  }, [id]);
+  }, [id, state]);
 
   const handleBack = () => {
     navigate(-1);
@@ -151,33 +174,12 @@ const ContentDetailPage: React.FC = () => {
     }));
   };
 
-  // Demo content for preview purposes
-  const demoContent = {
-    id: id || '1',
-    title: contentType === 'movie' ? 'Dune: Part Two' : contentType === 'tv' ? 'Cosmic Chronicles' : 'Cyber Revolution 2077',
-    description: 'Paul Atreides unites with Chani and the Fremen while on a path of revenge against the conspirators who destroyed his family. Facing a choice between the love of his life and the fate of the universe, he endeavors to prevent a terrible future only he can foresee.',
-    rating: 8.9,
-    year: '2025',
-    duration: contentType === 'movie' ? '166 min' : contentType === 'game' ? '40+ hours' : undefined,
-    season: contentType === 'tv' ? 'Season 3' : undefined,
-    platform: contentType === 'game' ? 'PC, PS5, Xbox' : undefined,
-    genre: contentType === 'movie' ? 'Sci-Fi, Adventure' : contentType === 'tv' ? 'Sci-Fi, Drama' : 'RPG, Open World',
-    image: 'https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800',
-    trailer_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    cast: ['Timothée Chalamet', 'Zendaya', 'Rebecca Ferguson', 'Josh Brolin'],
-    director: 'Denis Villeneuve',
-    studio: 'Legendary Pictures',
-    publisher: contentType === 'game' ? 'CD Projekt Red' : undefined,
-    release_date: 'March 1, 2025',
-    fullDescription: `This epic continuation of the Dune saga takes viewers on an unforgettable journey through the desert planet of Arrakis. Paul Atreides, now fully embracing his destiny as the prophesied leader, must navigate the complex political landscape while leading the Fremen in their fight for freedom.
 
 The film masterfully balances spectacular action sequences with intimate character moments, exploring themes of power, destiny, and the cost of leadership. The cinematography captures the vast, otherworldly beauty of Arrakis, while the sound design immerses audiences in this alien world.
 
 Director Denis Villeneuve has crafted a worthy successor that honors Frank Herbert's vision while bringing fresh perspectives to this beloved science fiction universe. The performances are outstanding across the board, with particular praise for the leads who bring depth and nuance to their complex characters.
 
 This is more than just a sequel - it's a cinematic experience that will leave audiences eagerly anticipating the next chapter in this extraordinary saga.`
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
@@ -198,7 +200,7 @@ This is more than just a sequel - it's a cinematic experience that will leave au
     );
   }
 
-  const displayContent = content;
+  const displayContent = content || {};
   const isAuthenticated = !!user;
 
   return (
@@ -244,7 +246,7 @@ This is more than just a sequel - it's a cinematic experience that will leave au
                 </div>
                 <div className="flex items-center space-x-1">
                   <Calendar className="w-5 h-5" />
-                  <span>{displayContent.year}</span>
+                  <span>{contentType === 'tv' ? displayContent.season : displayContent.year}</span>
                 </div>
                 {displayContent.duration && (
                   <div className="flex items-center space-x-1">
@@ -252,9 +254,9 @@ This is more than just a sequel - it's a cinematic experience that will leave au
                     <span>{displayContent.duration}</span>
                   </div>
                 )}
-                {displayContent.season && (
+                {contentType === 'tv' && displayContent.episodes && (
                   <div className="flex items-center space-x-1">
-                    <span>{displayContent.season}</span>
+                    <span>{displayContent.episodes} Episodes</span>
                   </div>
                 )}
                 {displayContent.platform && (
@@ -304,18 +306,11 @@ This is more than just a sequel - it's a cinematic experience that will leave au
               <h2 className="text-2xl font-bold text-white mb-4">About This {contentType === 'movie' ? 'Movie' : contentType === 'tv' ? 'Show' : 'Game'}</h2>
               <div className="prose prose-invert max-w-none">
                 <p className="text-gray-300 leading-relaxed whitespace-pre-line">
-                  {displayContent.fullDescription}
+                  {displayContent.description || 'No detailed description available for this content.'}
                 </p>
               </div>
             </div>
 
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6 mb-8">
-              <h2 className="text-2xl font-bold text-white mb-4">Overview</h2>
-              <p className="text-gray-300 leading-relaxed">
-                {displayContent.description}
-              </p>
-            </div>
-            
             {/* Cast & Crew */}
             {(contentType === 'movie' || contentType === 'tv') && displayContent.cast && (
               <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6 mb-8">
@@ -360,10 +355,10 @@ This is more than just a sequel - it's a cinematic experience that will leave au
                       <p className="text-white">{displayContent.publisher}</p>
                     </div>
                   )}
-                  {displayContent.studio && (
+                  {displayContent.developer && (
                     <div>
                       <p className="text-gray-400 text-sm">Developer</p>
-                      <p className="text-white">{displayContent.studio}</p>
+                      <p className="text-white">{displayContent.developer}</p>
                     </div>
                   )}
                   {displayContent.release_date && (
@@ -550,7 +545,10 @@ This is more than just a sequel - it's a cinematic experience that will leave au
                       />
                     </div>
                     <div>
-                      <h4 className="text-white font-medium">
+                      <h4 
+                        className="text-white font-medium cursor-pointer hover:text-yellow-400 transition-colors duration-200"
+                        onClick={() => navigate(`/content/${item.id}`)}
+                      >
                         {item.title}
                       </h4>
                       <div className="flex items-center mt-1">
@@ -559,7 +557,7 @@ This is more than just a sequel - it's a cinematic experience that will leave au
                           {item.rating}
                         </span>
                         <span className="text-gray-400 text-xs ml-2">
-                          {item.year}
+                          {contentType === 'tv' ? item.season : item.year || item.platform}
                         </span>
                       </div>
                     </div>
