@@ -173,13 +173,6 @@ const ContentDetailPage: React.FC = () => {
       return comment;
     }));
   };
-
-
-The film masterfully balances spectacular action sequences with intimate character moments, exploring themes of power, destiny, and the cost of leadership. The cinematography captures the vast, otherworldly beauty of Arrakis, while the sound design immerses audiences in this alien world.
-
-Director Denis Villeneuve has crafted a worthy successor that honors Frank Herbert's vision while bringing fresh perspectives to this beloved science fiction universe. The performances are outstanding across the board, with particular praise for the leads who bring depth and nuance to their complex characters.
-
-This is more than just a sequel - it's a cinematic experience that will leave audiences eagerly anticipating the next chapter in this extraordinary saga.`
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
@@ -301,13 +294,27 @@ This is more than just a sequel - it's a cinematic experience that will leave au
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            {/* Full Post Content Section */}
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6 mb-8">
-              <h2 className="text-2xl font-bold text-white mb-4">About This {contentType === 'movie' ? 'Movie' : contentType === 'tv' ? 'Show' : 'Game'}</h2>
+            {/* Full Post Content Section - Enhanced */}
+            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-8 mb-8">
+              <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
+                <span className="bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">
+                  About This {contentType === 'movie' ? 'Movie' : contentType === 'tv' ? 'Show' : 'Game'}
+                </span>
+              </h2>
               <div className="prose prose-invert max-w-none">
-                <p className="text-gray-300 leading-relaxed whitespace-pre-line">
-                  {displayContent.description || 'No detailed description available for this content.'}
-                </p>
+                <div className="text-gray-300 leading-relaxed text-lg space-y-4">
+                  <p className="first-letter:text-5xl first-letter:font-bold first-letter:mr-1 first-letter:float-left">
+                    {displayContent.description || 'No detailed description available for this content.'}
+                  </p>
+                  {displayContent.description && displayContent.description.length > 200 && (
+                    <div className="mt-4 pt-4 border-t border-slate-700/50">
+                      <p className="text-sm text-gray-400 italic">
+                        This comprehensive overview provides insights into the {contentType}'s key themes, 
+                        characters, and overall experience to help you decide if it's right for you.
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -377,18 +384,25 @@ This is more than just a sequel - it's a cinematic experience that will leave au
               </div>
             )}
             
-            {/* User Interaction Section - Comments and Ratings */}
-            {isAuthenticated && (
-              <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6">
-                <h2 className="text-2xl font-bold text-white mb-6">Rate & Review</h2>
-                
-                {/* Rating Overview */}
-                <div className="mb-8 p-4 bg-slate-700/50 rounded-lg">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <div className="flex items-center space-x-2 mb-1">
-                        <span className="text-3xl font-bold text-yellow-400">{averageRating}</span>
-                        <div className="flex items-center">
+            {/* Enhanced User Interaction Section - Comments and Ratings */}
+            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-8">
+              <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
+                <span className="bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">
+                  Community Reviews
+                </span>
+                <span className="ml-3 text-sm text-gray-400 font-normal">
+                  ({totalRatings} ratings, {comments.length} reviews)
+                </span>
+              </h2>
+              
+              {/* Enhanced Rating Overview */}
+              <div className="mb-8">
+                <div className="bg-gradient-to-r from-slate-700/50 to-slate-800/50 p-6 rounded-xl">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="text-center">
+                        <div className="text-4xl font-bold text-yellow-400">{averageRating}</div>
+                        <div className="flex items-center justify-center mt-1">
                           {[1, 2, 3, 4, 5].map((star) => (
                             <Star
                               key={star}
@@ -400,127 +414,203 @@ This is more than just a sequel - it's a cinematic experience that will leave au
                             />
                           ))}
                         </div>
+                        <p className="text-gray-400 text-xs mt-1">{totalRatings} ratings</p>
                       </div>
-                      <p className="text-gray-400 text-sm">Based on {totalRatings} ratings</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* User Rating Section */}
-                <div className="mb-8 p-4 bg-slate-700/30 rounded-lg">
-                  <h3 className="text-lg font-semibold text-white mb-3">Your Rating</h3>
-                  <div className="flex items-center space-x-2 mb-4">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rating) => (
-                      <button
-                        key={rating}
-                        onClick={() => handleRatingSubmit(rating)}
-                        onMouseEnter={() => setHoverRating(rating)}
-                        onMouseLeave={() => setHoverRating(0)}
-                        className={`w-8 h-8 rounded-full border-2 transition-all duration-200 flex items-center justify-center text-sm font-semibold ${
-                          (hoverRating >= rating || userRating >= rating)
-                            ? 'bg-yellow-400 border-yellow-400 text-black'
-                            : 'border-gray-400 text-gray-400 hover:border-yellow-400 hover:text-yellow-400'
-                        }`}
-                      >
-                        {rating}
-                      </button>
-                    ))}
-                  </div>
-                  {userRating > 0 && (
-                    <p className="text-green-400 text-sm">You rated this {userRating}/10</p>
-                  )}
-                </div>
-                
-                {/* Comment Form */}
-                <div className="mb-8">
-                  <h3 className="text-lg font-semibold text-white mb-3">Leave a Comment</h3>
-                  <form onSubmit={handleCommentSubmit} className="space-y-4">
-                    <textarea
-                      value={newComment}
-                      onChange={(e) => setNewComment(e.target.value)}
-                      placeholder="Share your thoughts about this content..."
-                      className="w-full p-4 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 resize-none"
-                      rows={4}
-                    />
-                    <div className="flex justify-end">
-                      <button
-                        type="submit"
-                        disabled={!newComment.trim()}
-                        className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-400 hover:to-red-400 text-black font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        <Send className="w-4 h-4" />
-                        <span>Post Comment</span>
-                      </button>
-                    </div>
-                  </form>
-                </div>
-
-                {/* Comments List */}
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-4">Comments ({comments.length})</h3>
-                  <div className="space-y-6">
-                    {comments.map((comment) => (
-                      <div key={comment.id} className="p-4 bg-slate-700/50 rounded-lg">
-                        <div className="flex items-start space-x-4">
-                          <div className="w-10 h-10 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex-shrink-0 flex items-center justify-center text-black font-bold">
-                            {comment.avatar}
+                      <div className="border-l border-slate-600 pl-4">
+                        <div className="text-sm text-gray-300">
+                          <div className="flex items-center space-x-2">
+                            <span className="w-12">5 stars</span>
+                            <div className="flex-1 h-2 bg-slate-600 rounded">
+                              <div className="h-full bg-yellow-400 rounded" style={{width: '75%'}}></div>
+                            </div>
+                            <span className="text-xs">75%</span>
                           </div>
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="flex items-center space-x-3">
-                                <h4 className="text-white font-medium">{comment.user}</h4>
-                                {comment.rating && (
-                                  <div className="flex items-center space-x-1">
-                                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                                    <span className="text-yellow-400 text-sm">{comment.rating}/10</span>
-                                  </div>
-                                )}
-                              </div>
-                              <span className="text-gray-400 text-xs">{comment.timestamp}</span>
+                          <div className="flex items-center space-x-2 mt-1">
+                            <span className="w-12">4 stars</span>
+                            <div className="flex-1 h-2 bg-slate-600 rounded">
+                              <div className="h-full bg-yellow-400 rounded" style={{width: '20%'}}></div>
                             </div>
-                            <p className="text-gray-300 text-sm mb-3 leading-relaxed">
-                              {comment.comment}
-                            </p>
-                            <div className="flex items-center space-x-4">
-                              <button
-                                onClick={() => handleCommentLike(comment.id, true)}
-                                className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors duration-200"
-                              >
-                                <ThumbsUp className="w-4 h-4" />
-                                <span className="text-xs">{comment.likes}</span>
-                              </button>
-                              <button
-                                onClick={() => handleCommentLike(comment.id, false)}
-                                className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors duration-200"
-                              >
-                                <ThumbsDown className="w-4 h-4" />
-                                <span className="text-xs">{comment.dislikes}</span>
-                              </button>
+                            <span className="text-xs">20%</span>
+                          </div>
+                          <div className="flex items-center space-x-2 mt-1">
+                            <span className="w-12">3 stars</span>
+                            <div className="flex-1 h-2 bg-slate-600 rounded">
+                              <div className="h-full bg-yellow-400 rounded" style={{width: '5%'}}></div>
                             </div>
+                            <span className="text-xs">5%</span>
                           </div>
                         </div>
                       </div>
-                    ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            )}
+
+              {/* Enhanced Rating Section */}
+              {isAuthenticated && (
+                <>
+                  <div className="mb-8">
+                    <h3 className="text-xl font-semibold text-white mb-4">Rate This Content</h3>
+                    <div className="bg-slate-700/30 p-6 rounded-xl">
+                      <div className="flex items-center justify-center space-x-3">
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rating) => (
+                          <button
+                            key={rating}
+                            onClick={() => handleRatingSubmit(rating)}
+                            onMouseEnter={() => setHoverRating(rating)}
+                            onMouseLeave={() => setHoverRating(0)}
+                            className={`w-12 h-12 rounded-full border-2 transition-all duration-200 flex items-center justify-center font-bold text-lg ${
+                              (hoverRating >= rating || userRating >= rating)
+                                ? 'bg-gradient-to-r from-yellow-400 to-red-500 border-transparent text-black shadow-lg transform scale-110'
+                                : 'border-slate-600 text-slate-300 hover:border-yellow-400 hover:text-yellow-400 hover:shadow-md'
+                            }`}
+                          >
+                            {rating}
+                          </button>
+                        ))}
+                      </div>
+                      {userRating > 0 && (
+                        <p className="text-center text-green-400 mt-3 font-medium">
+                          ✓ You rated this {userRating}/10
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Enhanced Comment Form */}
+                  <div className="mb-8">
+                    <h3 className="text-xl font-semibold text-white mb-4">Share Your Thoughts</h3>
+                    <form onSubmit={handleCommentSubmit} className="space-y-4">
+                      <div className="bg-slate-700/30 p-6 rounded-xl">
+                        <textarea
+                          value={newComment}
+                          onChange={(e) => setNewComment(e.target.value)}
+                          placeholder="What did you think about this content? Share your detailed thoughts..."
+                          className="w-full p-4 bg-slate-800/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 resize-none transition-all duration-200"
+                          rows={5}
+                        />
+                        <div className="mt-4 flex items-center justify-between">
+                          <span className="text-sm text-gray-400">
+                            {newComment.length}/500 characters
+                          </span>
+                          <button
+                            type="submit"
+                            disabled={!newComment.trim()}
+                            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-400 hover:to-red-400 text-black font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
+                          >
+                            <Send className="w-4 h-4" />
+                            <span>Post Review</span>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </>
+              )}
+
+              {/* Enhanced Comments List */}
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-6">
+                  Recent Reviews ({comments.length})
+                </h3>
+                <div className="space-y-4">
+                  {comments.map((comment, index) => (
+                    <div 
+                      key={comment.id} 
+                      className={`p-6 bg-slate-700/30 rounded-xl border border-slate-600/50 transition-all duration-200 hover:border-slate-500/50 ${
+                        index === 0 ? 'border-yellow-500/30 bg-slate-700/50' : ''
+                      }`}
+                    >
+                      <div className="flex items-start space-x-4">
+                        <div className="relative">
+                          <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex-shrink-0 flex items-center justify-center text-black font-bold">
+                            {comment.avatar}
+                          </div>
+                          {index === 0 && (
+                            <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
+                              <span className="text-xs text-black font-bold">★</span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center space-x-3">
+                              <h4 className="text-white font-semibold">{comment.user}</h4>
+                              {comment.rating && (
+                                <div className="flex items-center space-x-1 bg-slate-800/50 px-3 py-1 rounded-full">
+                                  <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                  <span className="text-yellow-400 text-sm font-medium">{comment.rating}/10</span>
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <span className="text-gray-400 text-sm">{comment.timestamp}</span>
+                              {index === 0 && (
+                                <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded-full">
+                                  Most Recent
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <p className="text-gray-300 mb-4 leading-relaxed">
+                            {comment.comment}
+                          </p>
+                          <div className="flex items-center space-x-6">
+                            <button
+                              onClick={() => handleCommentLike(comment.id, true)}
+                              className="flex items-center space-x-2 text-gray-400 hover:text-green-400 transition-colors duration-200"
+                            >
+                              <ThumbsUp className="w-4 h-4" />
+                              <span className="text-sm">{comment.likes}</span>
+                            </button>
+                            <button
+                              onClick={() => handleCommentLike(comment.id, false)}
+                              className="flex items-center space-x-2 text-gray-400 hover:text-red-400 transition-colors duration-200"
+                            >
+                              <ThumbsDown className="w-4 h-4" />
+                              <span className="text-sm">{comment.dislikes}</span>
+                            </button>
+                            <button className="text-gray-400 hover:text-white transition-colors duration-200 text-sm">
+                              Reply
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
             
-            {/* Login Prompt for Non-Authenticated Users */}
+            {/* Enhanced Login Prompt for Non-Authenticated Users */}
             {!isAuthenticated && (
-              <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6">
-                <div className="text-center">
-                  <MessageCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-white mb-2">Join the Conversation</h3>
-                  <p className="text-gray-400 mb-4">
-                    Sign in to rate this content and share your thoughts with the community.
+              <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-8">
+                <div className="text-center max-w-md mx-auto">
+                  <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MessageCircle className="w-8 h-8 text-black" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Join Our Community</h3>
+                  <p className="text-gray-400 mb-6 leading-relaxed">
+                    Be part of the conversation! Rate content, share your reviews, and connect with 
+                    other enthusiasts who share your interests.
                   </p>
-                  <button
-                    onClick={() => navigate('/login')}
-                    className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-400 hover:to-red-400 text-black font-semibold rounded-lg transition-all duration-200"
-                  >
-                    Sign In to Comment & Rate
-                  </button>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button
+                      onClick={() => navigate('/login')}
+                      className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-400 hover:to-red-400 text-black font-semibold rounded-lg transition-all duration-200 transform hover:scale-105"
+                    >
+                      Sign In to Review
+                    </button>
+                    <button
+                      onClick={() => navigate('/signup')}
+                      className="px-8 py-3 border border-yellow-500/50 text-yellow-400 font-semibold rounded-lg hover:bg-yellow-500/10 transition-all duration-200"
+                    >
+                      Create Account
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-4">
+                    Already have an account? Sign in to start sharing your thoughts today.
+                  </p>
                 </div>
               </div>
             )}
